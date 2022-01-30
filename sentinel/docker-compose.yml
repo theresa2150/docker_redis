@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  sentinel1:
+    image: redis
+    container_name: redis-sentinel1
+    hostname: ==sentinel1==
+    volumes: 
+    - /home/docker/redis/redis-sentinel1/data:/data
+    - /home/docker/redis/conf:/usr/local/etc/redis
+    ports:
+    - 26379:5000
+    networks:
+      redis_network: 
+        ipv4_address: 172.18.0.5
+    command: redis-sentinel /usr/local/etc/redis/sentinel1.conf
+    
+  sentinel2:
+    image: redis
+    container_name: redis-sentinel2
+    hostname: ==sentinel2==
+    volumes: 
+    - /home/docker/redis/redis-sentinel2/data:/data
+    - /home/docker/redis/conf:/usr/local/etc/redis
+    ports:
+    - 26380:5000
+    networks:
+      redis_network: 
+        ipv4_address: 172.18.0.6
+    command: redis-sentinel /usr/local/etc/redis/sentinel2.conf
+
+  sentinel3:
+    image: redis
+    container_name: redis-sentinel3
+    hostname: ==sentinel3==
+    volumes: 
+    - /home/docker/redis/redis-sentinel3/data:/data
+    - /home/docker/redis/conf:/usr/local/etc/redis
+    ports:
+    - 26381:5000
+    networks:
+      redis_network: 
+        ipv4_address: 172.18.0.7
+    command: redis-sentinel /usr/local/etc/redis/sentinel3.conf
+    
+networks:
+  redis_network:
+    driver: bridge
+    ipam: 
+      config: 
+      - subnet: 172.18.0.0/16
